@@ -1,0 +1,122 @@
+<div class="profile-page">
+  <div class="profile-content">
+    <h2>Mi Perfil</h2>
+    
+    @if (loading()) {
+    <div class="loading-state">
+      <i class="bi bi-arrow-repeat spin"></i> Cargando perfil...
+    </div>
+    }
+    
+    @if (error()) {
+    <div class="error-state">
+      <i class="bi bi-exclamation-triangle"></i> {{ error() }}
+    </div>
+    }
+
+    @if (requireUpdateMsg()) {
+    <div class="alert-warning" style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ffeeba; display: flex; align-items: center; gap: 10px;">
+      <i class="bi bi-shield-exclamation" style="font-size: 1.2rem;"></i> 
+      <span>{{ requireUpdateMsg() }}</span>
+    </div>
+    }
+
+    @if (successMessage()) {
+    <div class="success-state">
+      <i class="bi bi-check-circle"></i> {{ successMessage() }}
+    </div>
+    }
+    
+    @if (profile() && !loading()) {
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar">
+          {{ profile()?.names?.charAt(0) }}{{ profile()?.surnames?.charAt(0) }}
+        </div>
+        <div class="header-info">
+          <h3>{{ profile()?.names }} {{ profile()?.surnames }}</h3>
+          <p class="role-badge">{{ profile()?.type }}</p>
+          <p class="text-muted"><small>Documento: {{ profile()?.document }}</small></p>
+        </div>
+      </div>
+      
+      <div class="edit-form-container">
+        <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+          <div class="form-section">
+            <h4>Información Básica</h4>
+            <div class="form-group">
+              <label>Nombre de Usuario</label>
+              <input type="text" formControlName="username" class="form-control" [class.is-invalid]="editForm.get('username')?.invalid && editForm.get('username')?.touched" />
+              @if (editForm.get('username')?.invalid && editForm.get('username')?.touched) {
+                @if (editForm.get('username')?.errors?.['required']) {
+                  <small class="hint text-danger"><i class="bi bi-exclamation-circle"></i> El nombre de usuario es obligatorio.</small>
+                } @else if (editForm.get('username')?.errors?.['minlength']) {
+                  <small class="hint text-danger"><i class="bi bi-exclamation-circle"></i> Debe tener al menos 3 caracteres.</small>
+                }
+              } @else {
+                <small class="hint text-warning">Si cambias tu usuario, tendrás que iniciar sesión nuevamente.</small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Correo Electrónico</label>
+              <input type="email" formControlName="email" class="form-control" [class.is-invalid]="editForm.get('email')?.invalid && editForm.get('email')?.touched" />
+              @if (editForm.get('email')?.invalid && editForm.get('email')?.touched) {
+                @if (editForm.get('email')?.errors?.['required']) {
+                  <small class="hint text-danger"><i class="bi bi-exclamation-circle"></i> El correo electrónico es obligatorio.</small>
+                } @else if (editForm.get('email')?.errors?.['email']) {
+                  <small class="hint text-danger"><i class="bi bi-exclamation-circle"></i> Ingresa un formato de correo válido.</small>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4>Seguridad (Opcional)</h4>
+            <div class="form-group">
+              <label>Contraseña Actual</label>
+              <input type="password" formControlName="currentPassword" class="form-control" placeholder="Requerida solo si vas a cambiar tu contraseña" [class.is-invalid]="editForm.get('currentPassword')?.invalid && editForm.get('currentPassword')?.touched" />
+              @if (editForm.get('currentPassword')?.invalid && editForm.get('currentPassword')?.touched) {
+                @if (editForm.get('currentPassword')?.errors?.['required']) {
+                  <small class="hint text-danger"><i class="bi bi-exclamation-circle"></i> Ingresa tu contraseña actual para confirmar el cambio.</small>
+                }
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Nueva Contraseña</label>
+              <input type="password" formControlName="password" class="form-control" placeholder="Dejar en blanco para mantener la actual" [class.is-invalid]="editForm.get('password')?.invalid && editForm.get('password')?.touched" />
+              @if (editForm.get('password')?.invalid && editForm.get('password')?.touched) {
+                @if (editForm.get('password')?.errors?.['minlength']) {
+                  <small class="hint text-danger"><i class="bi bi-exclamation-circle"></i> La nueva contraseña debe tener al menos 4 caracteres.</small>
+                }
+              }
+            </div>
+            
+            <div class="form-group">
+              <label>Confirmar Nueva Contraseña</label>
+              <input type="password" formControlName="confirmPassword" class="form-control" placeholder="Repite la nueva contraseña" [class.is-invalid]="editForm.get('confirmPassword')?.invalid && editForm.get('confirmPassword')?.touched" />
+              @if (editForm.get('confirmPassword')?.invalid && editForm.get('confirmPassword')?.touched) {
+                @if (editForm.get('confirmPassword')?.errors?.['mismatch']) {
+                  <small class="hint text-danger"><i class="bi bi-exclamation-circle"></i> Las contraseñas no coinciden. Revisa de nuevo.</small>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="save-btn" [disabled]="editForm.invalid || isSaving()">
+              @if (!isSaving()) {
+              <i class="bi bi-save"></i> 
+              } @else {
+              <i class="bi bi-arrow-repeat spin"></i> 
+              }
+              {{ isSaving() ? 'Guardando...' : 'Guardar Cambios' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,351 @@
+/* ============================================
+   PALERMUS POS - App Component Styles
+   ============================================ */
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+/* === LAYOUT === */
+.pos-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* === TOPBAR === */
+.pos-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-primary);
+  padding: 0 28px;
+  height: 64px;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Brand / Logo */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px var(--color-accent-glow);
+}
+
+.brand-name {
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.3px;
+}
+
+/* === NAVIGATION MENU === */
+.main-menu {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.menu-item i {
+  font-size: 1.15rem;
+}
+
+.menu-item:hover {
+  color: var(--text-light);
+  background-color: var(--color-primary-light);
+}
+
+.menu-item.active {
+  color: #ffffff;
+  background-color: var(--color-accent);
+  box-shadow: 0 4px 14px var(--color-accent-glow);
+}
+
+/* === MOBILE TOGGLE (hidden by default) === */
+.menu-toggle {
+  display: none;
+}
+
+.menu-icon {
+  display: none;
+  color: var(--text-light);
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* === MAIN CONTENT === */
+.pos-main-content {
+  flex: 1;
+  padding: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* === USER SECTION (Right side of topbar) === */
+.user-section {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.user-btn:hover,
+.user-btn.active {
+  color: var(--text-light);
+  border-color: var(--color-accent);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.user-btn i.bi-person-circle {
+  font-size: 1.3rem;
+}
+
+.user-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+/* User Dropdown */
+.user-menu {
+  position: relative;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  z-index: 1001;
+  animation: fadeIn 0.15s ease;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--bg-body);
+}
+
+.dropdown-item.danger {
+  color: var(--color-error);
+}
+
+.dropdown-item.danger:hover {
+  background-color: var(--color-error-light);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 4px 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos para el menú desplegable del perfil */
+.profile-dropdown {
+  width: 280px;
+  padding: 10px 0;
+}
+
+.dropdown-profile-info {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 15px;
+}
+
+.dropdown-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.dropdown-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-details strong {
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.dropdown-details .role-badge {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 2px 6px;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--color-accent);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.dropdown-details .text-muted {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .pos-topbar {
+    padding: 0 16px;
+  }
+
+  .menu-item .text {
+    display: none;
+  }
+
+  .menu-item {
+    padding: 10px 12px;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .chevron {
+    display: none;
+  }
+}
+
+/* Móviles */
+@media (max-width: 600px) {
+  .menu-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .main-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-primary);
+    padding: 8px 0 16px;
+    box-shadow: var(--shadow-lg);
+    gap: 2px;
+  }
+
+  .menu-toggle:checked ~ .main-menu {
+    display: flex;
+  }
+
+  .menu-item {
+    width: calc(100% - 32px);
+    margin: 0 auto;
+    padding: 12px 16px;
+  }
+
+  .menu-item .text {
+    display: inline;
+  }
+
+  .pos-main-content {
+    padding: 16px;
+  }
+
+  .user-btn {
+    padding: 6px 10px;
+    border: none;
+  }
+}
+

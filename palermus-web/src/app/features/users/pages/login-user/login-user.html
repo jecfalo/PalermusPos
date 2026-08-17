@@ -1,0 +1,48 @@
+<div class="login-page">
+  <app-form-card title="Iniciar Sesión" subtitle="Ingresa tus credenciales para acceder al sistema" icon="bi-shield-lock">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+      @if (errorMessage()) {
+        <div class="alert-error">
+          <i class="bi bi-exclamation-triangle"></i>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <app-input-field
+        label="Usuario"
+        type="text"
+        icon="bi-person"
+        placeholder="Ingresa tu usuario"
+        formControlName="username"
+        [errorMessages]="{required: 'El usuario es obligatorio', minlength: 'Mínimo 3 caracteres'}"
+      ></app-input-field>
+
+      <app-input-field
+        label="Contraseña"
+        type="password"
+        icon="bi-lock"
+        placeholder="Ingresa tu contraseña"
+        formControlName="password"
+        [errorMessages]="{required: 'La contraseña es obligatoria', minlength: 'Mínimo 4 caracteres'}"
+      ></app-input-field>
+
+      <app-button
+        type="submit"
+        variant="primary"
+        icon="bi-box-arrow-in-right"
+        [fullWidth]="true"
+        [loading]="loading()"
+        [disabled]="loginForm.invalid && loginForm.touched"
+      >
+        Iniciar Sesión
+      </app-button>
+
+      <div class="form-footer">
+        <span>¿No tienes cuenta?</span>
+        <a routerLink="/register" class="link">Regístrate aquí</a>
+      </div>
+
+    </form>
+  </app-form-card>
+</div>

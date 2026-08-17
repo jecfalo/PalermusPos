@@ -1,0 +1,14 @@
+<div class="form-card">
+  <div *ngIf="title || subtitle" class="form-card-header">
+    <div *ngIf="icon" class="form-card-icon">
+      <i class="bi" [ngClass]="icon"></i>
+    </div>
+    <div class="form-card-titles">
+      <h2 *ngIf="title" class="form-card-title">{{ title }}</h2>
+      <p *ngIf="subtitle" class="form-card-subtitle">{{ subtitle }}</p>
+    </div>
+  </div>
+  <div class="form-card-body">
+    <ng-content></ng-content>
+  </div>
+</div>

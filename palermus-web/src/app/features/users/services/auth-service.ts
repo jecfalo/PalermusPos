@@ -1,16 +1,19 @@
-import { Service } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
-@Service()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
   private apiUrl = `${environment.apiUrl}`;
   private  tokenKey: string = 'tokenKey';
 
-  constructor(private http: HttpClient, private router: Router) {}
-
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  
   login(username: string, password: string) {
     return this.http.post<{token: string}>(environment.apiUrl + '/login', {username, password})
   }

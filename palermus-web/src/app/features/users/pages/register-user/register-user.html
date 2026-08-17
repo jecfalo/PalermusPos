@@ -1,0 +1,91 @@
+<div class="register-page">
+  <app-form-card title="Crear Cuenta" subtitle="Completa tus datos para registrarte en el sistema" icon="bi-person-plus">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+
+      @if (errorMessage()) {
+        <div class="alert-error">
+          <i class="bi bi-exclamation-triangle"></i>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      @if (successMessage()) {
+        <div class="alert-success">
+          <i class="bi bi-check-circle"></i>
+          <span>{{ successMessage() }}</span>
+        </div>
+      }
+
+      <div class="form-row">
+        <app-input-field
+          label="Nombres"
+          icon="bi-person"
+          placeholder="Ej: Juan Carlos"
+          formControlName="names"
+          [errorMessages]="{required: 'Los nombres son obligatorios', minlength: 'Mínimo 2 caracteres'}"
+        ></app-input-field>
+
+        <app-input-field
+          label="Apellidos"
+          icon="bi-person"
+          placeholder="Ej: Pérez García"
+          formControlName="surnames"
+          [errorMessages]="{required: 'Los apellidos son obligatorios', minlength: 'Mínimo 2 caracteres'}"
+        ></app-input-field>
+      </div>
+
+      <app-input-field
+        label="Documento de Identidad"
+        icon="bi-card-text"
+        placeholder="Ej: 12345678"
+        formControlName="document"
+        [errorMessages]="{required: 'El documento es obligatorio'}"
+      ></app-input-field>
+
+      <app-input-field
+        label="Correo Electrónico"
+        type="email"
+        icon="bi-envelope"
+        placeholder="Ej: correo@ejemplo.com"
+        formControlName="email"
+        [errorMessages]="{required: 'El correo es obligatorio', email: 'Ingresa un correo válido'}"
+      ></app-input-field>
+
+      <div class="form-row">
+        <app-input-field
+          label="Usuario (Opcional)"
+          icon="bi-at"
+          placeholder="Si se omite, será el documento"
+          formControlName="username"
+          [errorMessages]="{}"
+        ></app-input-field>
+
+        <app-input-field
+          label="Contraseña (Opcional)"
+          type="password"
+          icon="bi-lock"
+          placeholder="Si se omite, será el documento"
+          formControlName="password"
+          [errorMessages]="{}"
+        ></app-input-field>
+      </div>
+
+      <app-button
+        type="submit"
+        variant="primary"
+        icon="bi-person-plus"
+        [fullWidth]="true"
+        [loading]="loading()"
+        [disabled]="registerForm.invalid && registerForm.touched"
+      >
+        Crear Cuenta
+      </app-button>
+
+      <div class="form-footer">
+        <span>¿Ya tienes cuenta?</span>
+        <a routerLink="/login" class="link">Inicia sesión</a>
+      </div>
+
+    </form>
+  </app-form-card>
+</div>

@@ -1,0 +1,132 @@
+/* === SELECT FIELD COMPONENT === */
+
+.select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.select-label {
+  font-size: var(--input-label-size);
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.select-label.error {
+  color: var(--color-error);
+}
+
+.select-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+  z-index: 1;
+}
+
+.select-control {
+  width: 100%;
+  height: var(--input-height);
+  padding: 0 38px 0 14px;
+  font-size: var(--input-font-size);
+  font-family: inherit;
+  color: var(--input-text);
+  background-color: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+  border-radius: var(--input-radius);
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.select-control.with-icon {
+  padding-left: 42px;
+}
+
+.select-control.placeholder-selected {
+  color: var(--input-placeholder);
+}
+
+.select-arrow {
+  position: absolute;
+  right: 14px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+/* Focus */
+.select-wrapper.focused .select-control {
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.select-wrapper.focused .select-icon {
+  color: var(--color-accent);
+}
+
+.select-wrapper.focused .select-label {
+  color: var(--color-accent);
+}
+
+.select-wrapper.focused .select-arrow {
+  color: var(--color-accent);
+}
+
+/* Error */
+.select-wrapper.has-error .select-control {
+  border-color: var(--color-error);
+  background-color: var(--color-error-light);
+}
+
+.select-wrapper.has-error.focused .select-control {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.select-wrapper.has-error .select-icon {
+  color: var(--color-error);
+}
+
+/* Disabled */
+.select-wrapper.disabled .select-control {
+  background-color: var(--input-bg-disabled);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Error Message */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--color-error);
+  animation: slideDown 0.2s ease;
+}
+
+.error-message i {
+  font-size: 0.85rem;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

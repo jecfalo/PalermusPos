@@ -1,0 +1,24 @@
+<div class="select-wrapper" [class.focused]="focused()" [class.has-error]="touched && hasErrors()" [class.disabled]="disabled">
+  <label *ngIf="label" class="select-label" [class.error]="touched && hasErrors()">{{ label }}</label>
+  <div class="select-container">
+    <i *ngIf="icon" class="bi select-icon" [ngClass]="icon"></i>
+    <select
+      class="select-control"
+      [class.with-icon]="icon"
+      [class.placeholder-selected]="!value"
+      [value]="value"
+      [disabled]="disabled"
+      (change)="onSelectChange($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    >
+      <option value="" disabled>{{ placeholder }}</option>
+      <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
+    </select>
+    <i class="bi bi-chevron-down select-arrow"></i>
+  </div>
+  <div *ngIf="touched && hasErrors()" class="error-message">
+    <i class="bi bi-exclamation-circle"></i>
+    <span>{{ getFirstError() }}</span>
+  </div>
+</div>

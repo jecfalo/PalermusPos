@@ -1,0 +1,150 @@
+/* === INPUT FIELD COMPONENT === */
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+/* Label */
+.input-label {
+  font-size: var(--input-label-size);
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.input-label.error {
+  color: var(--color-error);
+}
+
+/* Container */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Icon */
+.input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+  z-index: 1;
+}
+
+/* Input */
+.input-control {
+  width: 100%;
+  height: var(--input-height);
+  padding: 0 14px;
+  font-size: var(--input-font-size);
+  font-family: inherit;
+  color: var(--input-text);
+  background-color: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+  border-radius: var(--input-radius);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input-control::placeholder {
+  color: var(--input-placeholder);
+}
+
+.input-control.with-icon {
+  padding-left: 42px;
+}
+
+.input-control.with-toggle {
+  padding-right: 44px;
+}
+
+/* Focus State */
+.input-wrapper.focused .input-control {
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.input-wrapper.focused .input-icon {
+  color: var(--color-accent);
+}
+
+.input-wrapper.focused .input-label {
+  color: var(--color-accent);
+}
+
+/* Error State */
+.input-wrapper.has-error .input-control {
+  border-color: var(--color-error);
+  background-color: var(--color-error-light);
+}
+
+.input-wrapper.has-error .input-control:focus,
+.input-wrapper.has-error.focused .input-control {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.input-wrapper.has-error .input-icon {
+  color: var(--color-error);
+}
+
+/* Disabled State */
+.input-wrapper.disabled .input-control {
+  background-color: var(--input-bg-disabled);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Password Toggle */
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.password-toggle:hover {
+  color: var(--text-primary);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Error Message */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--color-error);
+  animation: slideDown 0.2s ease;
+}
+
+.error-message i {
+  font-size: 0.85rem;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

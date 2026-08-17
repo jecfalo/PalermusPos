@@ -1,0 +1,31 @@
+<div class="input-wrapper" [class.focused]="focused()" [class.has-error]="touched && hasErrors()" [class.disabled]="disabled">
+  <label *ngIf="label" class="input-label" [class.error]="touched && hasErrors()">{{ label }}</label>
+  <div class="input-container">
+    <i *ngIf="icon" class="bi input-icon" [ngClass]="icon"></i>
+    <input
+      [type]="currentType"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      class="input-control"
+      [class.with-icon]="icon"
+      [class.with-toggle]="type === 'password'"
+    />
+    <button
+      *ngIf="type === 'password'"
+      type="button"
+      class="password-toggle"
+      (click)="togglePassword()"
+      tabindex="-1"
+    >
+      <i class="bi" [ngClass]="showPassword() ? 'bi-eye-slash' : 'bi-eye'"></i>
+    </button>
+  </div>
+  <div *ngIf="touched && hasErrors()" class="error-message">
+    <i class="bi bi-exclamation-circle"></i>
+    <span>{{ getFirstError() }}</span>
+  </div>
+</div>

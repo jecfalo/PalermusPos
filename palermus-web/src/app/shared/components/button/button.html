@@ -1,0 +1,26 @@
+<button
+  [type]="type"
+  class="btn"
+  [ngClass]="[
+    'btn-' + variant,
+    'btn-' + size,
+    fullWidth ? 'btn-full' : '',
+    loading ? 'btn-loading' : ''
+  ]"
+  [disabled]="isDisabled"
+  (click)="onClick($event)"
+>
+  <!-- Loading spinner -->
+  <span *ngIf="loading" class="spinner"></span>
+
+  <!-- Icon left -->
+  <i *ngIf="icon && iconPosition === 'left' && !loading" class="bi btn-icon" [ngClass]="icon"></i>
+
+  <!-- Button content -->
+  <span class="btn-text">
+    <ng-content></ng-content>
+  </span>
+
+  <!-- Icon right -->
+  <i *ngIf="icon && iconPosition === 'right' && !loading" class="bi btn-icon" [ngClass]="icon"></i>
+</button>
