@@ -21,15 +21,26 @@ public class UserService implements  IUserService{
     @Transactional
     public ReferenceUser registerUser(RegisterUser register) {
         User user = new User();
-        user.setUsername(register.username());
-        user.setPassword(encoder.encode(register.password()));
+        String rawUsername = (register.username() == null || register.username().trim().isEmpty())
+                             ? register.document()
+                             : register.username();
+        user.setUsername(rawUsername);
+        
+        String rawPassword = (register.password() == null || register.password().trim().isEmpty()) 
+                             ? register.document() 
+                             : register.password();
+        
+        user.setPassword(encoder.encode(rawPassword));
         user.setUserActive(true);
+        
+        UserType finalRole = (register.userType() != null) ? register.userType() : UserType.CLIENT;
+        
         Profile profile = Profile.builder()
                 .document(register.document())
                 .names(register.names())
                 .surnames(register.surnames())
                 .email(register.email())
-                .userType(UserType.CLIENT)
+                .userType(finalRole)
                 .profileActive(true)
                 .build();
         profile.setUser(user);

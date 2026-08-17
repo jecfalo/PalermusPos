@@ -65,4 +65,9 @@ public class ProfileController {
             return ResponseEntity.badRequest().body(Map.of("message", "Accion denegada"));
         }
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(Map.of("message", ex.getMessage()));
+    }
 }

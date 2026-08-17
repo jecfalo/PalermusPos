@@ -1,5 +1,6 @@
 package com.jecfalo.palermus_api.modules.users.models;
 
+import com.jecfalo.palermus_api.core.security.AttributeEncryptor;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,10 +21,12 @@ public class Profile {
     @Id
     private Long id;
     @Column(unique = true)
+    @Convert(converter = AttributeEncryptor.class)
     private String document;
     private String names;
     private String surnames;
     @Column(unique = true)
+    @Convert(converter = AttributeEncryptor.class)
     private String email;
     @Enumerated(EnumType.STRING)
     private UserType userType;

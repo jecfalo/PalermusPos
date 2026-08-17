@@ -50,6 +50,6 @@ public class TokenService {
         }
     }
     private Instant accessTokenExpired(){
-        return LocalDateTime.now().plusHours(ACCESS_TOKEN_HOURS).toInstant(ZoneOffset.UTC);
+        return LocalDateTime.now(ZoneOffset.UTC).plusHours(ACCESS_TOKEN_HOURS).toInstant(ZoneOffset.UTC);
     }
 }

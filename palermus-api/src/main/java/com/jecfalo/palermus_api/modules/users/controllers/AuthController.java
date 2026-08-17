@@ -4,7 +4,6 @@ import com.jecfalo.palermus_api.core.config.JwtToken;
 import com.jecfalo.palermus_api.core.security.TokenService;
 import com.jecfalo.palermus_api.modules.users.models.User;
 import com.jecfalo.palermus_api.modules.users.records.user.AuthenticatedUser;
-import com.jecfalo.palermus_api.modules.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class AuhController {
+public class AuthController {
     @Autowired
     private TokenService tokenService;
     @Autowired

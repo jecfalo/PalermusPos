@@ -58,7 +58,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
         if(xForwardedFor != null && !xForwardedFor.isEmpty()){
             return xForwardedFor.split(",")[0].trim();
         }
-        return request.getRemoteUser();
+        return request.getRemoteAddr();
     }
     private void cleanExpiredEntries(){
         requestConterMap.entrySet().removeIf(entry -> entry.getValue().isExpired());

@@ -78,7 +78,12 @@ public class ProfileService implements IProfileService{
     @Override
     public String updateProfilePassword(Long id, UpdateProfile passwordUpdate) {
       User user = userRepository.findById(id)
-              .orElseThrow(()-> new EntityNotFoundException("No existe un usuario con e3l identificador asociado"));
+              .orElseThrow(()-> new EntityNotFoundException("No existe un usuario con el identificador asociado"));
+      
+      if (!passwordEncoder.matches(passwordUpdate.currentPassword(), user.getPassword())) {
+          throw new IllegalArgumentException("La contraseña actual es incorrecta");
+      }
+      
       String hashedPassword = passwordEncoder.encode(passwordUpdate.password());
       user.setPassword(hashedPassword);
       userRepository.save(user);

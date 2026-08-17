@@ -15,6 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.config.Customizer;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -28,13 +34,13 @@ public class SecurityConfigurations {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
+                .cors(Customizer.withDefaults()) // Enable CORS integration
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                             // --- Endpoints públicos (sin autenticación) ---
                             auth.requestMatchers(HttpMethod.POST, "/api/users").permitAll();
                             auth.requestMatchers(HttpMethod.POST,"/api/login").permitAll();
-                            auth.requestMatchers(HttpMethod.POST,"/api/refresh").permitAll();
                             auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
                             // --- Swagger: solo accesible para administradores ---
@@ -43,7 +49,7 @@ public class SecurityConfigurations {
                                     "/swagger-ui/**").permitAll();
                             //.hasRole("ADMIN");
                             // --- Endpoints protegidos por rol ---
-                            auth.requestMatchers("/api/storages-room/**", "/api/users/**", "/api/profiles/**").hasRole("ADMIN");
+                            auth.requestMatchers("/api/storages-room/**", "/api/users/**").hasRole("ADMIN");
                             auth.requestMatchers("/api/products/**", "/api/crud-inv/**", "/api/orders/**", "/api/cash-registers/**").hasAnyRole("ADMIN", "SELLER");
 
                             // --- Cualquier otra petición requiere autenticación ---
@@ -54,6 +60,7 @@ public class SecurityConfigurations {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+    @Bean
     public PasswordEncoder passwordEncoder(){
         return Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
         /*
@@ -70,8 +77,20 @@ public class SecurityConfigurations {
          */
     }
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration ac){
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration ac) throws Exception {
         return ac.getAuthenticationManager();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Allow Angular frontend
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
