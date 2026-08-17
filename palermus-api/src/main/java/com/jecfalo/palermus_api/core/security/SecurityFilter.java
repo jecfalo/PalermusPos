@@ -1,6 +1,5 @@
-package com.jecfalo.palermus_api.core.config;
+package com.jecfalo.palermus_api.core.security;
 
-import com.jecfalo.palermus_api.core.security.TokenService;
 import com.jecfalo.palermus_api.modules.users.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

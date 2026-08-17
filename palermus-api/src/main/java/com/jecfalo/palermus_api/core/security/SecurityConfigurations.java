@@ -1,9 +1,11 @@
-package com.jecfalo.palermus_api.core.config;
+package com.jecfalo.palermus_api.core.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -66,6 +68,10 @@ public class SecurityConfigurations {
          *
          * return new Argon2PasswordEncoder(saltLength, hashLength, parallelism, memory, iterations);
          */
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration ac){
+        return ac.getAuthenticationManager();
     }
 
 }

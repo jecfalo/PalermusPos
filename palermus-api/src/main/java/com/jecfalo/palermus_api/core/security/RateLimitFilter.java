@@ -1,4 +1,4 @@
-package com.jecfalo.palermus_api.core.config;
+package com.jecfalo.palermus_api.core.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

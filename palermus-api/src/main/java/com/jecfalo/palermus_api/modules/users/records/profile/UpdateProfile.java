@@ -1,4 +1,9 @@
 package com.jecfalo.palermus_api.modules.users.records.profile;
 
-public class UpdateProfile {
-}
+import com.jecfalo.palermus_api.modules.users.models.UserType;
+
+public record UpdateProfile(
+        String username,
+        String password,
+        String email
+) {}
