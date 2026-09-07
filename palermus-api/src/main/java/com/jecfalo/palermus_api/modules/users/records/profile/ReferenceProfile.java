@@ -16,7 +16,7 @@ public record ReferenceProfile(
 ) {
     public ReferenceProfile(Profile profile){
         this(
-                profile.getId(),
+                profile.getProfileId(),
                 DataMasker.maskDocument(profile.getDocument()),
                 profile.getUser().getUsername(),
                 profile.getNames(),

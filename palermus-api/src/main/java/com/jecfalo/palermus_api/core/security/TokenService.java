@@ -4,14 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jecfalo.palermus_api.modules.users.models.User;
-import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -29,7 +26,7 @@ public class TokenService {
                     .withIssuer("palermus")
                     .withSubject(user.getUsername())
                     .withExpiresAt(accessTokenExpired())
-                    .withClaim("userId", user.getProfile().getId())
+                    .withClaim("userId", user.getProfile().getProfileId())
                     .withClaim("role", user.getProfile().getUserType().name())
                     .withClaim("type", "access")
                     .sign(algorithm);

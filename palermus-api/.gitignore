@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.\deploy.ps1
+env-vars.yaml

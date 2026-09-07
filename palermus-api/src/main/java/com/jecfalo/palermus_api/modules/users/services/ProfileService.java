@@ -38,29 +38,27 @@ public class ProfileService implements IProfileService{
     @Override
     @Transactional
     public ReferenceProfile getProfileById(Long profileId) {
-        Profile profile = repository.findById(profileId)
-                .orElseThrow(()-> new RuntimeException("No existe un perfil con ese documento"));
+        Profile profile = findProfileEntity(profileId);
         return new ReferenceProfile(profile);
     }
 
     @Override
     public ReferenceProfile getProfileDocument(String document) {
         Profile profile = repository.findByDocument(document)
-                .orElseThrow(()-> new RuntimeException("No existe un perfil con ese documento"));
+                .orElseThrow(()-> new EntityNotFoundException("No existe un perfil con ese documento"));
         return new ReferenceProfile(profile);
     }
 
     @Override
     public ReferenceProfile getProfileByUsername(String username) {
         Profile profile = repository.findByUserUsername(username)
-                .orElseThrow(()-> new RuntimeException("No existe un perfil con este usuario"));
+                .orElseThrow(()-> new EntityNotFoundException("No existe un perfil con este usuario"));
         return new ReferenceProfile(profile);
     }
 
     @Override
     public ReferenceProfile updateProfileEmail(Long id, UpdateProfile emailUpdate) {
-        Profile profile = repository.findById(id)
-                .orElseThrow(()-> new RuntimeException("No existe un perfil asociado con el identificador introducido"));
+        Profile profile = findProfileEntity(id);
         profile.setEmail(emailUpdate.email());
         Profile emailUpdated = repository.save(profile);
         return new ReferenceProfile(emailUpdated);
@@ -68,8 +66,7 @@ public class ProfileService implements IProfileService{
 
     @Override
     public ReferenceProfile updateProfileUsername(Long id, UpdateProfile usernameUpdate) {
-        User user = userRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("No existe un perfil con el identificador asociado"));
+        User user = findUserEntity(id);
         user.setUsername(usernameUpdate.username());
         User usernameUpdated = userRepository.save(user);
         return new ReferenceProfile(usernameUpdated.getProfile());
@@ -77,9 +74,7 @@ public class ProfileService implements IProfileService{
 
     @Override
     public String updateProfilePassword(Long id, UpdateProfile passwordUpdate) {
-      User user = userRepository.findById(id)
-              .orElseThrow(()-> new EntityNotFoundException("No existe un usuario con el identificador asociado"));
-      
+      User user = findUserEntity(id);
       if (!passwordEncoder.matches(passwordUpdate.currentPassword(), user.getPassword())) {
           throw new IllegalArgumentException("La contraseña actual es incorrecta");
       }
@@ -92,8 +87,7 @@ public class ProfileService implements IProfileService{
 
     @Override
     public ReferenceProfile updateProfileRole(Long id, UpdateRole updateRole){
-        Profile profile = repository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("No existe un usuario con el identificador asociado"));
+        Profile profile = findProfileEntity(id);
         profile.setUserType(updateRole.type());
         repository.save(profile);
         return new ReferenceProfile(profile);
@@ -102,13 +96,20 @@ public class ProfileService implements IProfileService{
     @Override
     @Transactional
     public Boolean logicalDelete(Long id) {
-        Profile profile = repository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("No existe un usuario con ese identificador asociado"));
+        Profile profile = findProfileEntity(id);
         if(!profile.isProfileActive()){
             return false;
         }
         profile.setProfileActive(false);
         repository.save(profile);
         return true;
+    }
+    public Profile findProfileEntity(Long id){
+        return repository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("No existe un perfil con identificador asociado"));
+    }
+    private  User findUserEntity(Long id){
+        return userRepository.findById(id)
+            .orElseThrow(()-> new EntityNotFoundException("No existe un usuario con el identificador asociado"));
     }
 }

@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                     if(user != null){
                         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
-                        System.out.println("Autenticacion exitosa en SecurityFilter para el usuario: " + subject);
+                        System.out.println("Autenticacion exitosa del usuario: " + subject);
                         System.out.println("Roles del usuario: " + user.getAuthorities());
                     } else {
                         System.out.println("Usuario no encontrado en la BD: " + subject);
@@ -46,9 +47,12 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
     private String extractToken(HttpServletRequest request){
-        String headerAuthorization = request.getHeader("Authorization");
-        if(headerAuthorization != null){
-            return headerAuthorization.replace("Bearer ", "");
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("auth_token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
         }
         return null;
     }

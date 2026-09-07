@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @EntityListeners(AuditingEntityListener.class)
 public class Profile {
     @Id
-    private Long id;
+    private Long profileId;
     @Column(unique = true)
     @Convert(converter = AttributeEncryptor.class)
     private String document;

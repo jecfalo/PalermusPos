@@ -15,7 +15,7 @@ public record ListProfile(
 ) {
     public ListProfile(Profile profile){
         this(
-                profile.getId(),
+                profile.getProfileId(),
                 DataMasker.maskDocument(profile.getDocument()),
                 profile.getNames(),
                 profile.getSurnames(),
